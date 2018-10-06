@@ -1,0 +1,41 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/Privado.Master" AutoEventWireup="true" CodeBehind="masterTransfer.master.cs" Inherits="PCFuctory.masterTransfer" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-one-quarter">
+                    <aside class="panel">
+                        <p class="panel-heading">Transferencias</p>
+                        <a class="panel-block" href="../Transferencias/Default.aspx">
+                            <span class="panel-icon">
+                                <i class="fa fa-code-fork"></i>
+                            </span>
+                            Inicio
+                        </a>
+                        <a class="panel-block" href="../Transferencias/Crear.aspx">
+                            <span class="panel-icon">
+                                <i class="fa fa-code-fork"></i>
+                            </span>
+                            Nuevo
+                        </a>
+                        <a class="panel-block" href="../Transferencias/Anular.aspx">
+                            <span class="panel-icon">
+                                <i class="fa fa-code-fork"></i>
+                            </span>
+                            Anular
+                        </a>                        
+                    </aside>
+                </div>
+                <div class="column">
+                    <div class="media-content">
+                        <asp:contentplaceholder id="ContentPlaceHolder1" runat="server">
+                        </asp:contentplaceholder>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</asp:Content>

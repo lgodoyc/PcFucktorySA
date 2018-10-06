@@ -1,0 +1,65 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/Privado.Master" AutoEventWireup="true" CodeBehind="Master01.master.cs" Inherits="PCFuctory.Master01" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-one-quarter">
+                    <aside class="panel">
+                        <p class="panel-heading">Mantenedores</p>
+                        <a class="panel-block" href="../Secciones/GestionDatos.aspx">
+                            <span class="panel-icon">
+                                <i class="fa fa-code-fork"></i>
+                            </span>
+                            Inicio
+                        </a>
+                        <a class="panel-block" href="../Articulo/Crear.aspx">
+                            <span class="panel-icon">
+                                <i class="fa fa-code-fork"></i>
+                            </span>
+                            Articulo
+                        </a>
+                        <a class="panel-block" href="../Bodega/Crear.aspx">
+                            <span class="panel-icon">
+                                <i class="fa fa-code-fork"></i>
+                            </span>
+                            Bodega
+                        </a>
+                        <a class="panel-block" href="../Categoria/Crear.aspx">
+                            <span class="panel-icon">
+                                <i class="fa fa-code-fork"></i>
+                            </span>
+                            Categoria
+                        </a>
+                        <a class="panel-block" href="../Region/Crear.aspx">
+                            <span class="panel-icon">
+                                <i class="fa fa-code-fork"></i>
+                            </span>
+                            Region
+                        </a>
+                        <a class="panel-block" href="../Comuna/Crear.aspx">
+                            <span class="panel-icon">
+                                <i class="fa fa-code-fork"></i>
+                            </span>
+                            Comuna
+                        </a>
+                        <a class="panel-block" href="../Ubicacion/Crear.aspx">
+                            <span class="panel-icon">
+                                <i class="fa fa-code-fork"></i>
+                            </span>
+                            Ubicacion
+                        </a>
+                    </aside>
+                </div>
+                <div class="column">
+                    <div class="media-content">
+                        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                        </asp:ContentPlaceHolder>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</asp:Content>

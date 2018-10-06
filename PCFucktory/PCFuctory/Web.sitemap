@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+      <siteMapNode url="PCFucktory.aspx" title="Inicio"  description="">
+        <siteMapNode url="" title="Mantenedores">
+          <siteMapNode url="web/Inventario/Articulo/Default.aspx" title="Articulos" />
+          <siteMapNode url="web/Inventario/Bodega/Default.aspx" title="Bodegas" />
+          <siteMapNode url="web/Inventario/Categoria/Default.aspx" title="Categorias" />
+          <siteMapNode url="web/Inventario/Ubicacion/Default.aspx" title="Ubicaciones" />
+        </siteMapNode>
+      </siteMapNode>
+</siteMap>

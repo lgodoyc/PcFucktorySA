@@ -1,0 +1,555 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="FuckingDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Articulo">
+          <Key>
+            <PropertyRef Name="Articulo_id" />
+          </Key>
+          <Property Name="Articulo_id" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="StockMaximo" Type="int" Nullable="false" />
+          <Property Name="StockMinimo" Type="int" Nullable="false" />
+          <Property Name="StockCritico" Type="int" Nullable="false" />
+          <Property Name="Categoria_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Bodega">
+          <Key>
+            <PropertyRef Name="Bodega_ID" />
+          </Key>
+          <Property Name="Bodega_ID" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="Ubicacion_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Categoria">
+          <Key>
+            <PropertyRef Name="Categoria_ID" />
+          </Key>
+          <Property Name="Categoria_ID" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Comuna">
+          <Key>
+            <PropertyRef Name="Comuna_ID" />
+          </Key>
+          <Property Name="Comuna_ID" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Region_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Movimiento">
+          <Key>
+            <PropertyRef Name="Transaccion_ID" />
+          </Key>
+          <Property Name="Transaccion_ID" Type="int" Nullable="false" />
+          <Property Name="FechaTransaccion" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MovimientoDetalle">
+          <Key>
+            <PropertyRef Name="Transaccion_ID" />
+          </Key>
+          <Property Name="Transaccion_ID" Type="int" Nullable="false" />
+          <Property Name="Linea" Type="int" Nullable="false" />
+          <Property Name="Articulo_ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="BodegaSalida_ID" Type="int" Nullable="false" />
+          <Property Name="BodegaEntrada_ID" Type="int" Nullable="false" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Region">
+          <Key>
+            <PropertyRef Name="Region_ID" />
+          </Key>
+          <Property Name="Region_ID" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Ubicacion">
+          <Key>
+            <PropertyRef Name="Ubicacion_ID" />
+          </Key>
+          <Property Name="Ubicacion_ID" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Direccion" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="TorreBlock" Type="varchar" MaxLength="20" />
+          <Property Name="NroDpto" Type="int" />
+          <Property Name="Numero" Type="int" Nullable="false" />
+          <Property Name="Comuna_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_BENTRADA_ID">
+          <End Role="Bodega" Type="Self.Bodega" Multiplicity="1" />
+          <End Role="MovimientoDetalle" Type="Self.MovimientoDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bodega">
+              <PropertyRef Name="Bodega_ID" />
+            </Principal>
+            <Dependent Role="MovimientoDetalle">
+              <PropertyRef Name="BodegaEntrada_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BSALIDA_ID">
+          <End Role="Bodega" Type="Self.Bodega" Multiplicity="1" />
+          <End Role="MovimientoDetalle" Type="Self.MovimientoDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bodega">
+              <PropertyRef Name="Bodega_ID" />
+            </Principal>
+            <Dependent Role="MovimientoDetalle">
+              <PropertyRef Name="BodegaSalida_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CATEGORIA_ID">
+          <End Role="Categoria" Type="Self.Categoria" Multiplicity="1" />
+          <End Role="Articulo" Type="Self.Articulo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categoria">
+              <PropertyRef Name="Categoria_ID" />
+            </Principal>
+            <Dependent Role="Articulo">
+              <PropertyRef Name="Categoria_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_ARTICULO">
+          <End Role="Articulo" Type="Self.Articulo" Multiplicity="1" />
+          <End Role="MovimientoDetalle" Type="Self.MovimientoDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Articulo">
+              <PropertyRef Name="Articulo_id" />
+            </Principal>
+            <Dependent Role="MovimientoDetalle">
+              <PropertyRef Name="Articulo_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_UBICACION">
+          <End Role="Comuna" Type="Self.Comuna" Multiplicity="1" />
+          <End Role="Ubicacion" Type="Self.Ubicacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comuna">
+              <PropertyRef Name="Comuna_ID" />
+            </Principal>
+            <Dependent Role="Ubicacion">
+              <PropertyRef Name="Comuna_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MOVIMIENTO_ID">
+          <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="1" />
+          <End Role="MovimientoDetalle" Type="Self.MovimientoDetalle" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Movimiento">
+              <PropertyRef Name="Transaccion_ID" />
+            </Principal>
+            <Dependent Role="MovimientoDetalle">
+              <PropertyRef Name="Transaccion_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_REGION_ID">
+          <End Role="Region" Type="Self.Region" Multiplicity="1" />
+          <End Role="Comuna" Type="Self.Comuna" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="Region_ID" />
+            </Principal>
+            <Dependent Role="Comuna">
+              <PropertyRef Name="Region_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UBICACION_ID">
+          <End Role="Ubicacion" Type="Self.Ubicacion" Multiplicity="1" />
+          <End Role="Bodega" Type="Self.Bodega" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ubicacion">
+              <PropertyRef Name="Ubicacion_ID" />
+            </Principal>
+            <Dependent Role="Bodega">
+              <PropertyRef Name="Ubicacion_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FuckingDBModelStoreContainer">
+          <EntitySet Name="Articulo" EntityType="Self.Articulo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Bodega" EntityType="Self.Bodega" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Categoria" EntityType="Self.Categoria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Comuna" EntityType="Self.Comuna" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Movimiento" EntityType="Self.Movimiento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MovimientoDetalle" EntityType="Self.MovimientoDetalle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Region" EntityType="Self.Region" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ubicacion" EntityType="Self.Ubicacion" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BENTRADA_ID" Association="Self.FK_BENTRADA_ID">
+            <End Role="Bodega" EntitySet="Bodega" />
+            <End Role="MovimientoDetalle" EntitySet="MovimientoDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BSALIDA_ID" Association="Self.FK_BSALIDA_ID">
+            <End Role="Bodega" EntitySet="Bodega" />
+            <End Role="MovimientoDetalle" EntitySet="MovimientoDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CATEGORIA_ID" Association="Self.FK_CATEGORIA_ID">
+            <End Role="Categoria" EntitySet="Categoria" />
+            <End Role="Articulo" EntitySet="Articulo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_ARTICULO" Association="Self.FK_ID_ARTICULO">
+            <End Role="Articulo" EntitySet="Articulo" />
+            <End Role="MovimientoDetalle" EntitySet="MovimientoDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_UBICACION" Association="Self.FK_ID_UBICACION">
+            <End Role="Comuna" EntitySet="Comuna" />
+            <End Role="Ubicacion" EntitySet="Ubicacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MOVIMIENTO_ID" Association="Self.FK_MOVIMIENTO_ID">
+            <End Role="Movimiento" EntitySet="Movimiento" />
+            <End Role="MovimientoDetalle" EntitySet="MovimientoDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_REGION_ID" Association="Self.FK_REGION_ID">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="Comuna" EntitySet="Comuna" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UBICACION_ID" Association="Self.FK_UBICACION_ID">
+            <End Role="Ubicacion" EntitySet="Ubicacion" />
+            <End Role="Bodega" EntitySet="Bodega" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FuckingDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Articulo">
+          <Key>
+            <PropertyRef Name="Articulo_id" />
+          </Key>
+          <Property Name="Articulo_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="StockMaximo" Type="Int32" Nullable="false" />
+          <Property Name="StockMinimo" Type="Int32" Nullable="false" />
+          <Property Name="StockCritico" Type="Int32" Nullable="false" />
+          <Property Name="Categoria_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Categoria" Relationship="Self.FK_CATEGORIA_ID" FromRole="Articulo" ToRole="Categoria" />
+          <NavigationProperty Name="MovimientoDetalle" Relationship="Self.FK_ID_ARTICULO" FromRole="Articulo" ToRole="MovimientoDetalle" />
+        </EntityType>
+        <EntityType Name="Bodega">
+          <Key>
+            <PropertyRef Name="Bodega_ID" />
+          </Key>
+          <Property Name="Bodega_ID" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Ubicacion_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="MovimientoDetalle" Relationship="Self.FK_BENTRADA_ID" FromRole="Bodega" ToRole="MovimientoDetalle" />
+          <NavigationProperty Name="MovimientoDetalle1" Relationship="Self.FK_BSALIDA_ID" FromRole="Bodega" ToRole="MovimientoDetalle" />
+          <NavigationProperty Name="Ubicacion" Relationship="Self.FK_UBICACION_ID" FromRole="Bodega" ToRole="Ubicacion" />
+        </EntityType>
+        <EntityType Name="Categoria">
+          <Key>
+            <PropertyRef Name="Categoria_ID" />
+          </Key>
+          <Property Name="Categoria_ID" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Articulo" Relationship="Self.FK_CATEGORIA_ID" FromRole="Categoria" ToRole="Articulo" />
+        </EntityType>
+        <EntityType Name="Comuna">
+          <Key>
+            <PropertyRef Name="Comuna_ID" />
+          </Key>
+          <Property Name="Comuna_ID" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Region_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Ubicacion" Relationship="Self.FK_ID_UBICACION" FromRole="Comuna" ToRole="Ubicacion" />
+          <NavigationProperty Name="Region" Relationship="Self.FK_REGION_ID" FromRole="Comuna" ToRole="Region" />
+        </EntityType>
+        <EntityType Name="Movimiento">
+          <Key>
+            <PropertyRef Name="Transaccion_ID" />
+          </Key>
+          <Property Name="Transaccion_ID" Type="Int32" Nullable="false" />
+          <Property Name="FechaTransaccion" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="MovimientoDetalle" Relationship="Self.FK_MOVIMIENTO_ID" FromRole="Movimiento" ToRole="MovimientoDetalle" />
+        </EntityType>
+        <EntityType Name="MovimientoDetalle">
+          <Key>
+            <PropertyRef Name="Transaccion_ID" />
+          </Key>
+          <Property Name="Transaccion_ID" Type="Int32" Nullable="false" />
+          <Property Name="Linea" Type="Int32" Nullable="false" />
+          <Property Name="Articulo_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BodegaSalida_ID" Type="Int32" Nullable="false" />
+          <Property Name="BodegaEntrada_ID" Type="Int32" Nullable="false" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Articulo" Relationship="Self.FK_ID_ARTICULO" FromRole="MovimientoDetalle" ToRole="Articulo" />
+          <NavigationProperty Name="Bodega" Relationship="Self.FK_BENTRADA_ID" FromRole="MovimientoDetalle" ToRole="Bodega" />
+          <NavigationProperty Name="Bodega1" Relationship="Self.FK_BSALIDA_ID" FromRole="MovimientoDetalle" ToRole="Bodega" />
+          <NavigationProperty Name="Movimiento" Relationship="Self.FK_MOVIMIENTO_ID" FromRole="MovimientoDetalle" ToRole="Movimiento" />
+        </EntityType>
+        <EntityType Name="Region">
+          <Key>
+            <PropertyRef Name="Region_ID" />
+          </Key>
+          <Property Name="Region_ID" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Comuna" Relationship="Self.FK_REGION_ID" FromRole="Region" ToRole="Comuna" />
+        </EntityType>
+        <EntityType Name="Ubicacion">
+          <Key>
+            <PropertyRef Name="Ubicacion_ID" />
+          </Key>
+          <Property Name="Ubicacion_ID" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Direccion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TorreBlock" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="NroDpto" Type="Int32" />
+          <Property Name="Numero" Type="Int32" Nullable="false" />
+          <Property Name="Comuna_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Bodega" Relationship="Self.FK_UBICACION_ID" FromRole="Ubicacion" ToRole="Bodega" />
+          <NavigationProperty Name="Comuna" Relationship="Self.FK_ID_UBICACION" FromRole="Ubicacion" ToRole="Comuna" />
+        </EntityType>
+        <Association Name="FK_CATEGORIA_ID">
+          <End Role="Categoria" Type="Self.Categoria" Multiplicity="1" />
+          <End Role="Articulo" Type="Self.Articulo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categoria">
+              <PropertyRef Name="Categoria_ID" />
+            </Principal>
+            <Dependent Role="Articulo">
+              <PropertyRef Name="Categoria_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_ARTICULO">
+          <End Role="Articulo" Type="Self.Articulo" Multiplicity="1" />
+          <End Role="MovimientoDetalle" Type="Self.MovimientoDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Articulo">
+              <PropertyRef Name="Articulo_id" />
+            </Principal>
+            <Dependent Role="MovimientoDetalle">
+              <PropertyRef Name="Articulo_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BENTRADA_ID">
+          <End Role="Bodega" Type="Self.Bodega" Multiplicity="1" />
+          <End Role="MovimientoDetalle" Type="Self.MovimientoDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bodega">
+              <PropertyRef Name="Bodega_ID" />
+            </Principal>
+            <Dependent Role="MovimientoDetalle">
+              <PropertyRef Name="BodegaEntrada_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BSALIDA_ID">
+          <End Role="Bodega" Type="Self.Bodega" Multiplicity="1" />
+          <End Role="MovimientoDetalle" Type="Self.MovimientoDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bodega">
+              <PropertyRef Name="Bodega_ID" />
+            </Principal>
+            <Dependent Role="MovimientoDetalle">
+              <PropertyRef Name="BodegaSalida_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UBICACION_ID">
+          <End Role="Ubicacion" Type="Self.Ubicacion" Multiplicity="1" />
+          <End Role="Bodega" Type="Self.Bodega" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ubicacion">
+              <PropertyRef Name="Ubicacion_ID" />
+            </Principal>
+            <Dependent Role="Bodega">
+              <PropertyRef Name="Ubicacion_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_UBICACION">
+          <End Role="Comuna" Type="Self.Comuna" Multiplicity="1" />
+          <End Role="Ubicacion" Type="Self.Ubicacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comuna">
+              <PropertyRef Name="Comuna_ID" />
+            </Principal>
+            <Dependent Role="Ubicacion">
+              <PropertyRef Name="Comuna_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_REGION_ID">
+          <End Role="Region" Type="Self.Region" Multiplicity="1" />
+          <End Role="Comuna" Type="Self.Comuna" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="Region_ID" />
+            </Principal>
+            <Dependent Role="Comuna">
+              <PropertyRef Name="Region_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MOVIMIENTO_ID">
+          <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="1" />
+          <End Role="MovimientoDetalle" Type="Self.MovimientoDetalle" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Movimiento">
+              <PropertyRef Name="Transaccion_ID" />
+            </Principal>
+            <Dependent Role="MovimientoDetalle">
+              <PropertyRef Name="Transaccion_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FuckingDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Articulo" EntityType="Self.Articulo" />
+          <EntitySet Name="Bodega" EntityType="Self.Bodega" />
+          <EntitySet Name="Categoria" EntityType="Self.Categoria" />
+          <EntitySet Name="Comuna" EntityType="Self.Comuna" />
+          <EntitySet Name="Movimiento" EntityType="Self.Movimiento" />
+          <EntitySet Name="MovimientoDetalle" EntityType="Self.MovimientoDetalle" />
+          <EntitySet Name="Region" EntityType="Self.Region" />
+          <EntitySet Name="Ubicacion" EntityType="Self.Ubicacion" />
+          <AssociationSet Name="FK_CATEGORIA_ID" Association="Self.FK_CATEGORIA_ID">
+            <End Role="Categoria" EntitySet="Categoria" />
+            <End Role="Articulo" EntitySet="Articulo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_ARTICULO" Association="Self.FK_ID_ARTICULO">
+            <End Role="Articulo" EntitySet="Articulo" />
+            <End Role="MovimientoDetalle" EntitySet="MovimientoDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BENTRADA_ID" Association="Self.FK_BENTRADA_ID">
+            <End Role="Bodega" EntitySet="Bodega" />
+            <End Role="MovimientoDetalle" EntitySet="MovimientoDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BSALIDA_ID" Association="Self.FK_BSALIDA_ID">
+            <End Role="Bodega" EntitySet="Bodega" />
+            <End Role="MovimientoDetalle" EntitySet="MovimientoDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UBICACION_ID" Association="Self.FK_UBICACION_ID">
+            <End Role="Ubicacion" EntitySet="Ubicacion" />
+            <End Role="Bodega" EntitySet="Bodega" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_UBICACION" Association="Self.FK_ID_UBICACION">
+            <End Role="Comuna" EntitySet="Comuna" />
+            <End Role="Ubicacion" EntitySet="Ubicacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_REGION_ID" Association="Self.FK_REGION_ID">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="Comuna" EntitySet="Comuna" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MOVIMIENTO_ID" Association="Self.FK_MOVIMIENTO_ID">
+            <End Role="Movimiento" EntitySet="Movimiento" />
+            <End Role="MovimientoDetalle" EntitySet="MovimientoDetalle" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FuckingDBModelStoreContainer" CdmEntityContainer="FuckingDBEntities">
+          <EntitySetMapping Name="Articulo">
+            <EntityTypeMapping TypeName="FuckingDBModel.Articulo">
+              <MappingFragment StoreEntitySet="Articulo">
+                <ScalarProperty Name="Articulo_id" ColumnName="Articulo_id" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="StockMaximo" ColumnName="StockMaximo" />
+                <ScalarProperty Name="StockMinimo" ColumnName="StockMinimo" />
+                <ScalarProperty Name="StockCritico" ColumnName="StockCritico" />
+                <ScalarProperty Name="Categoria_ID" ColumnName="Categoria_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bodega">
+            <EntityTypeMapping TypeName="FuckingDBModel.Bodega">
+              <MappingFragment StoreEntitySet="Bodega">
+                <ScalarProperty Name="Bodega_ID" ColumnName="Bodega_ID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Ubicacion_ID" ColumnName="Ubicacion_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categoria">
+            <EntityTypeMapping TypeName="FuckingDBModel.Categoria">
+              <MappingFragment StoreEntitySet="Categoria">
+                <ScalarProperty Name="Categoria_ID" ColumnName="Categoria_ID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Comuna">
+            <EntityTypeMapping TypeName="FuckingDBModel.Comuna">
+              <MappingFragment StoreEntitySet="Comuna">
+                <ScalarProperty Name="Comuna_ID" ColumnName="Comuna_ID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Region_ID" ColumnName="Region_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Movimiento">
+            <EntityTypeMapping TypeName="FuckingDBModel.Movimiento">
+              <MappingFragment StoreEntitySet="Movimiento">
+                <ScalarProperty Name="Transaccion_ID" ColumnName="Transaccion_ID" />
+                <ScalarProperty Name="FechaTransaccion" ColumnName="FechaTransaccion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MovimientoDetalle">
+            <EntityTypeMapping TypeName="FuckingDBModel.MovimientoDetalle">
+              <MappingFragment StoreEntitySet="MovimientoDetalle">
+                <ScalarProperty Name="Transaccion_ID" ColumnName="Transaccion_ID" />
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="Articulo_ID" ColumnName="Articulo_ID" />
+                <ScalarProperty Name="BodegaSalida_ID" ColumnName="BodegaSalida_ID" />
+                <ScalarProperty Name="BodegaEntrada_ID" ColumnName="BodegaEntrada_ID" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Region">
+            <EntityTypeMapping TypeName="FuckingDBModel.Region">
+              <MappingFragment StoreEntitySet="Region">
+                <ScalarProperty Name="Region_ID" ColumnName="Region_ID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ubicacion">
+            <EntityTypeMapping TypeName="FuckingDBModel.Ubicacion">
+              <MappingFragment StoreEntitySet="Ubicacion">
+                <ScalarProperty Name="Ubicacion_ID" ColumnName="Ubicacion_ID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="TorreBlock" ColumnName="TorreBlock" />
+                <ScalarProperty Name="NroDpto" ColumnName="NroDpto" />
+                <ScalarProperty Name="Numero" ColumnName="Numero" />
+                <ScalarProperty Name="Comuna_ID" ColumnName="Comuna_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
